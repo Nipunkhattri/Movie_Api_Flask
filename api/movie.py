@@ -158,6 +158,7 @@ def search(query,field_names=["title", "description", "director","avg_rating"]):
 
 @movie_api.route('/Search')
 class SearchApi(Resource):
+    @jwt_middleware
     def get(self):
         search_query = request.args.get('query')
 
@@ -165,4 +166,4 @@ class SearchApi(Resource):
             return ({'error': 'Please provide a search query'}), 404
         
         results = search(search_query, field_names=["title", "description", "director","avg_rating"])
-        return ({'results': results}),200
+        return (results),200

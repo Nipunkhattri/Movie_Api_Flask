@@ -68,7 +68,7 @@ class LoginData(Resource):
                 return {"message": "Incorrect password"}, 400
             
             access_token = create_access_token(identity=user.id)
-            response = jsonify({'assess_token': access_token})
+            response = jsonify({'access_token': access_token})
             response.status_code = 200
             return response
         
