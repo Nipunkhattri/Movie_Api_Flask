@@ -9,11 +9,12 @@ from pydantic import ValidationError
 
 movie_api = Namespace('movie')
 
+
+## Creating and Fetching the Movie 
 @movie_api.route('/')
 class CreateAndFetchMovie(Resource):
-    @jwt_middleware
+    @jwt_middleware #Check user Login
     def post(self):
-
         try:
             movieData = MovieData(**request.get_json())
         except ValidationError as e:
@@ -39,7 +40,6 @@ class CreateAndFetchMovie(Resource):
     
     @jwt_middleware
     def get(self):
-
         page = int(request.args.get('page', 1))
         movies_per_page = request.args.get("movies_per_page", 10, type=int)
         sort_by = request.args.get("sort_by", "none", type=str)
@@ -81,6 +81,7 @@ class CreateAndFetchMovie(Resource):
         response.status_code = 200
         return response
 
+# Updating and Deleting the Movie
 @movie_api.route("/<int:movie_id>")
 class MovieUpdateandDelete(Resource):
     @jwt_middleware
@@ -134,6 +135,7 @@ class MovieUpdateandDelete(Resource):
             if not movie:
                 return {"message": "Movie does not exist"},404
             
+            #using Marshmallow
             MovieData = MovieItemList().dump(movie)
             response = jsonify(MovieData)
             response.status_code = 200
@@ -156,6 +158,8 @@ def search(query,field_names=["title", "description", "director","avg_rating"]):
                 break
     return results
 
+
+# search api call
 @movie_api.route('/Search')
 class SearchApi(Resource):
     @jwt_middleware
