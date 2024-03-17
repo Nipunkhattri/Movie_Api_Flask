@@ -18,7 +18,19 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-4. Run the application
+4. Flask Migrate
+
+```sh
+flask db migrate
+```
+
+5. Flask Upgarde
+
+```sh
+flask db upgrade
+```
+
+6. Run the application
 ```sh
 python main.py
 ```
