@@ -1,6 +1,6 @@
 from pydantic import BaseModel , validator , Field
 from datetime import date
-import regex as re
+import re
 
 class MovieData(BaseModel):
     title: str = Field(..., min_length=2, max_length=50)
